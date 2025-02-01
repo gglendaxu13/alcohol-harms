@@ -25,21 +25,22 @@
       width: 15px;
       height: 15px;
       background-color: transparent;
-      border: 2px solid black;
+      border: 2px solid darkblue;
       border-radius: 50%;
       cursor: pointer;
       transform: translate(-50%, -50%);
     }
     .hotspot.active {
-      background-color: black;
+      background-color: darkblue;
       border: none;
     }
     .tooltip {
       position: absolute;
-      background-color: rgba(0, 0, 0, 0.8);
-      color: #fff;
+      background-color: white;
+      color: black;
       padding: 8px 12px;
       border-radius: 5px;
+      border: 2px solid darkblue;
       display: none;
       white-space: nowrap;
       text-align: left;
@@ -59,9 +60,10 @@
 <body>
   <h1>Interactive Human Body</h1>
   <div class="container">
-    <img src="image.png" alt="Human Body with Organs" class="body-image">
+    <img src="/mnt/data/image.png" alt="Human Body with Organs" class="body-image">
 
     <!-- Hotspots -->
+    <div class="hotspot" style="top: 10%; left: 50%;" data-info='<div class="header">Brain</div><ul><li>Brain damage</li><li>Memory loss</li><li>Disrupted sleep</li><li>Stroke (bleed in brain)</li><li>Nerve damage</li><li>Depression</li><li>Anxiety</li></ul>'></div>
     <div class="hotspot" style="top: 15%; left: 50%;" data-info='<div class="header">Mouth and Throat</div><ul><li>Increased risk of mouth and throat cancers</li></ul>'></div>
     <div class="hotspot" style="top: 20%; left: 50%;" data-info='<div class="header">Lungs</div><ul><li>Weakens the lungs’ ability to fight infections</li></ul>'></div>
     <div class="hotspot" style="top: 40%; left: 50%;" data-info='<div class="header">Liver</div><ul><li>Fatty liver</li><li>Hepatitis</li><li>Cirrhosis</li><li>Increased risk of liver cancer</li></ul>'></div>
@@ -82,30 +84,15 @@
     const tooltip = document.getElementById('tooltip');
 
     hotspots.forEach(hotspot => {
-      // Show tooltip on hover
-      hotspot.addEventListener('mouseover', function(event) {
-        tooltip.style.display = 'block';
-        tooltip.innerHTML = this.getAttribute('data-info');
-        tooltip.style.top = `${event.clientY + 10}px`;
-        tooltip.style.left = `${event.clientX + 10}px`;
-      });
-
-      // Hide tooltip on mouseout
-      hotspot.addEventListener('mouseout', function() {
-        tooltip.style.display = 'none';
-      });
-
-      // Change hotspot appearance on click
       hotspot.addEventListener('click', function(event) {
         tooltip.style.display = 'block';
         tooltip.innerHTML = this.getAttribute('data-info');
-        tooltip.style.top = `${event.clientY + 10}px`;
-        tooltip.style.left = `${event.clientX + 10}px`;
+        tooltip.style.top = `${event.target.offsetTop - 10}px`;
+        tooltip.style.left = `${event.target.offsetLeft + 20}px`;
         this.classList.add('active');
       });
     });
 
-    // Hide tooltip when clicking elsewhere
     document.addEventListener('click', function(event) {
       if (!event.target.classList.contains('hotspot')) {
         tooltip.style.display = 'none';

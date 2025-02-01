@@ -1,73 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alcohol's Effects on the Body</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f5f5f5;
-        }
-        .container {
-            position: relative;
-            max-width: 600px;
-            margin: 20px auto;
-        }
-        .body-image {
-            width: 100%;
-        }
-        .tooltip {
-            position: absolute;
-            background-color: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            padding: 10px;
-            border-radius: 5px;
-            display: none;
-        }
-        .hotspot {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: rgba(255, 0, 0, 0.7);
-            border-radius: 50%;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Human Body</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      position: relative;
+      max-width: 600px;
+      margin: 20px auto;
+    }
+    .body-image {
+      width: 100%;
+    }
+    .hotspot {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background-color: transparent;
+      border: 2px solid black;
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+    }
+    .hotspot.active {
+      background-color: black;
+      border: none;
+    }
+    .tooltip {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 5px;
+      display: none;
+      white-space: nowrap;
+      text-align: left;
+    }
+    .tooltip .header {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 5px;
+    }
+    .tooltip ul {
+      padding-left: 15px;
+      margin: 0;
+      list-style-type: disc;
+    }
+  </style>
 </head>
 <body>
-    <h1>Alcohol's Impact on the Body</h1>
-    <div class="container">
-        <img src="image.png" alt="Human Body with Organs" class="body-image">
-        
-        <!-- Hotspots for different organs -->
-        <div class="hotspot" style="top: 12%; left: 45%;" data-info="Brain: Alcohol impairs brain function, affecting memory, decision-making, and motor control."></div>
-        <div class="hotspot" style="top: 30%; left: 50%;" data-info="Heart: Excessive alcohol can lead to high blood pressure, irregular heartbeat, and heart disease."></div>
-        <div class="hotspot" style="top: 38%; left: 47%;" data-info="Liver: Alcohol causes fatty liver, hepatitis, fibrosis, and cirrhosis over time."></div>
-        <div class="hotspot" style="top: 55%; left: 47%;" data-info="Stomach: Alcohol irritates the stomach lining, causing ulcers and increased acid production."></div>
-        <div class="hotspot" style="top: 65%; left: 48%;" data-info="Intestines: Alcohol disrupts nutrient absorption and can cause inflammation."></div>
-        <div class="hotspot" style="top: 75%; left: 48%;" data-info="Immune System: Chronic alcohol use weakens the immune response, increasing infection risks."></div>
-        
-        <!-- Tooltip Display -->
-        <div id="tooltip" class="tooltip"></div>
-    </div>
-    
-    <script>
-        const hotspots = document.querySelectorAll('.hotspot');
-        const tooltip = document.getElementById('tooltip');
-        
-        hotspots.forEach(hotspot => {
-            hotspot.addEventListener('mouseover', function(event) {
-                tooltip.style.display = 'block';
-                tooltip.innerText = this.getAttribute('data-info');
-                tooltip.style.top = event.clientY + 10 + 'px';
-                tooltip.style.left = event.clientX + 10 + 'px';
-            });
-            hotspot.addEventListener('mouseout', function() {
-                tooltip.style.display = 'none';
-            });
-        });
-    </script>
+  <h1>Interactive Human Body</h1>
+  <div class="container">
+    <img src="/mnt/data/image.png" alt="Human Body with Organs" class="body-image">
+
+    <!-- Hotspots -->
+    <div class="hotspot" style="top: 15%; left: 50%;" data-info='<div class="header">Mouth and Throat</div><ul><li>Increased risk of mouth and throat cancers</li></ul>'></div>
+    <div class="hotspot" style="top: 20%; left: 50%;" data-info='<div class="header">Lungs</div><ul><li>Weakens the lungs’ ability to fight infections</li></ul>'></div>
+    <div class="hotspot" style="top: 40%; left: 50%;" data-info='<div class="header">Liver</div><ul><li>Fatty liver</li><li>Hepatitis</li><li>Cirrhosis</li><li>Increased risk of liver cancer</li></ul>'></div>
+    <div class="hotspot" style="top: 45%; left: 50%;" data-info='<div class="header">Blood and Immunity</div><ul><li>Reduced production of white blood cells</li><li>Weakened immunity</li><li>Less ability to fight infections</li><li>Causes anemia</li></ul>'></div>
+    <div class="hotspot" style="top: 50%; left: 50%;" data-info='<div class="header">Skin, Fat, Bone & Muscles</div><ul><li>Dehydration</li><li>Weight gain</li><li>Muscle wasting</li></ul>'></div>
+    <div class="hotspot" style="top: 60%; left: 50%;" data-info='<div class="header">Sex Organs</div><ul><li>Reduced fertility</li><li>Wasting of testicles</li><li>Impotence</li><li>Loss of sex drive</li></ul>'></div>
+    <div class="hotspot" style="top: 65%; left: 50%;" data-info='<div class="header">Intestines</div><ul><li>Disrupts nutrient absorption</li><li>Damages intestinal walls</li></ul>'></div>
+    <div class="hotspot" style="top: 70%; left: 50%;" data-info='<div class="header">Pancreas</div><ul><li>Leads to pancreatitis</li><li>Impairs insulin regulation</li></ul>'></div>
+    <div class="hotspot" style="top: 75%; left: 50%;" data-info='<div class="header">Stomach and Gut</div><ul><li>Irritates the stomach lining</li><li>Causes ulcers</li><li>Leads to acid reflux</li></ul>'></div>
+    <div class="hotspot" style="top: 25%; left: 50%;" data-info='<div class="header">Heart and Circulation</div><ul><li>Increases blood pressure</li><li>Contributes to heart disease</li></ul>'></div>
+
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip"></div>
+  </div>
+
+  <script>
+    const hotspots = document.querySelectorAll('.hotspot');
+    const tooltip = document.getElementById('tooltip');
+
+    hotspots.forEach(hotspot => {
+      // Show tooltip on hover
+      hotspot.addEventListener('mouseover', function(event) {
+        tooltip.style.display = 'block';
+        tooltip.innerHTML = this.getAttribute('data-info');
+        tooltip.style.top = `${event.clientY + 10}px`;
+        tooltip.style.left = `${event.clientX + 10}px`;
+      });
+
+      // Hide tooltip on mouseout
+      hotspot.addEventListener('mouseout', function() {
+        tooltip.style.display = 'none';
+      });
+
+      // Change hotspot appearance on click
+      hotspot.addEventListener('click', function(event) {
+        tooltip.style.display = 'block';
+        tooltip.innerHTML = this.getAttribute('data-info');
+        tooltip.style.top = `${event.clientY + 10}px`;
+        tooltip.style.left = `${event.clientX + 10}px`;
+        this.classList.add('active');
+      });
+    });
+
+    // Hide tooltip when clicking elsewhere
+    document.addEventListener('click', function(event) {
+      if (!event.target.classList.contains('hotspot')) {
+        tooltip.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>

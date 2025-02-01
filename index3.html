@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alcohol's Effects on the Body</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .container {
+            position: relative;
+            max-width: 600px;
+            margin: 20px auto;
+        }
+        .body-image {
+            width: 100%;
+        }
+        .tooltip {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+        }
+        .hotspot {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgba(255, 0, 0, 0.7);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Alcohol's Impact on the Body</h1>
+    <div class="container">
+        <img src="/mnt/data/image.png" alt="Human Body with Organs" class="body-image">
+        
+        <!-- Hotspots for different organs -->
+        <div class="hotspot" style="top: 12%; left: 45%;" data-info="Brain: Alcohol impairs brain function, affecting memory, decision-making, and motor control."></div>
+        <div class="hotspot" style="top: 30%; left: 50%;" data-info="Heart: Excessive alcohol can lead to high blood pressure, irregular heartbeat, and heart disease."></div>
+        <div class="hotspot" style="top: 38%; left: 47%;" data-info="Liver: Alcohol causes fatty liver, hepatitis, fibrosis, and cirrhosis over time."></div>
+        <div class="hotspot" style="top: 55%; left: 47%;" data-info="Stomach: Alcohol irritates the stomach lining, causing ulcers and increased acid production."></div>
+        <div class="hotspot" style="top: 65%; left: 48%;" data-info="Intestines: Alcohol disrupts nutrient absorption and can cause inflammation."></div>
+        <div class="hotspot" style="top: 75%; left: 48%;" data-info="Immune System: Chronic alcohol use weakens the immune response, increasing infection risks."></div>
+        
+        <!-- Tooltip Display -->
+        <div id="tooltip" class="tooltip"></div>
+    </div>
+    
+    <script>
+        const hotspots = document.querySelectorAll('.hotspot');
+        const tooltip = document.getElementById('tooltip');
+        
+        hotspots.forEach(hotspot => {
+            hotspot.addEventListener('mouseover', function(event) {
+                tooltip.style.display = 'block';
+                tooltip.innerText = this.getAttribute('data-info');
+                tooltip.style.top = event.clientY + 10 + 'px';
+                tooltip.style.left = event.clientX + 10 + 'px';
+            });
+            hotspot.addEventListener('mouseout', function() {
+                tooltip.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+</html>

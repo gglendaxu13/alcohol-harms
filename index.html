@@ -11,14 +11,18 @@
       background-color: #f5f5f5;
       margin: 0;
       padding: 0;
+      overflow: hidden;
     }
     .container {
       position: relative;
       max-width: 600px;
       margin: 20px auto;
+      overflow: hidden;
+      transition: transform 0.5s ease-in-out;
     }
     .body-image {
       width: 100%;
+      transition: transform 0.5s ease-in-out;
     }
     .hotspot {
       position: absolute;
@@ -44,6 +48,7 @@
       display: none;
       white-space: nowrap;
       text-align: left;
+      z-index: 10;
     }
     .tooltip .header {
       font-weight: bold;
@@ -55,26 +60,28 @@
       margin: 0;
       list-style-type: disc;
     }
+    .close-btn {
+      cursor: pointer;
+      font-size: 1em;
+      color: red;
+      font-weight: bold;
+      float: right;
+    }
   </style>
 </head>
 <body>
-  <h1>Interactive Human Body</h1>
-  <div class="container">
-    <img src="image.png" alt="Human Body with Organs" class="body-image">
+  <h1>Alcohol Harms on the Body</h1>
+  <p>Click each hotspot to find out more</p>
+  <div class="container" id="imageContainer">
+    <img src="image.png" alt="Human Body with Organs" class="body-image" id="bodyImage">
 
     <!-- Hotspots -->
-    <div class="hotspot" style="top: 8%; left: 48%;" data-info='<div class="header">Brain</div><ul><li>Brain damage</li><li>Memory loss</li><li>Disrupted sleep</li><li>Stroke (bleed in brain)</li><li>Nerve damage</li><li>Depression</li><li>Anxiety</li></ul>'></div>
-    <div class="hotspot" style="top: 13.5%; left: 39.5%;" data-info='<div class="header">Mouth and Throat</div><ul><li>Increased risk of mouth and throat cancers</li></ul>'></div>
-    <div class="hotspot" style="top: 27%; left: 43%;" data-info='<div class="header">Lungs</div><ul><li>Weakens the lungs’ ability to fight infections</li></ul>'></div>
-    <div class="hotspot" style="top: 35%; left: 46%;" data-info='<div class="header">Liver</div><ul><li>Fatty liver</li><li>Hepatitis</li><li>Cirrhosis</li><li>Increased risk of liver cancer</li></ul>'></div>
-    <div class="hotspot" style="top: 40%; left: 30%;" data-info='<div class="header">Blood and Immunity</div><ul><li>Reduced production of white blood cells</li><li>Weakened immunity</li><li>Less ability to fight infections</li><li>Causes anemia</li></ul>'></div>
-    <div class="hotspot" style="top: 57%; left: 60%;" data-info='<div class="header">Skin, Fat, Bone & Muscles</div><ul><li>Dehydration</li><li>Weight gain</li><li>Muscle wasting</li></ul>'></div>
-    <div class="hotspot" style="top: 51%; left: 50%;" data-info='<div class="header">Sex Organs</div><ul><li>Reduced fertility</li><li>Wasting of testicles</li><li>Impotence</li><li>Loss of sex drive</li></ul>'></div>
-    <div class="hotspot" style="top: 46%; left: 50%;" data-info='<div class="header">Intestines</div><ul><li>Disrupts nutrient absorption</li><li>Damages intestinal walls</li></ul>'></div>
-    <div class="hotspot" style="top: 39%; left: 46%;" data-info='<div class="header">Pancreas</div><ul><li>Leads to pancreatitis</li><li>Impairs insulin regulation</li></ul>'></div>
-    <div class="hotspot" style="top: 37%; left: 57%;" data-info='<div class="header">Stomach and Gut</div><ul><li>Irritates the stomach lining</li><li>Causes ulcers</li><li>Leads to acid reflux</li></ul>'></div>
-    <div class="hotspot" style="top: 30%; left: 50%;" data-info='<div class="header">Heart and Circulation</div><ul><li>Increases blood pressure</li><li>Contributes to heart disease</li></ul>'></div>
-
+    <div class="hotspot" style="top: 8%; left: 48%;" data-info='<div class="header">Brain <span class="close-btn">X</span></div><ul><li>Brain damage</li><li>Memory loss</li><li>Disrupted sleep</li><li>Stroke (bleed in brain)</li><li>Nerve damage</li><li>Depression</li><li>Anxiety</li></ul>' data-zoom="scale(2) translate(-20%, -10%)"></div>
+    <div class="hotspot" style="top: 13.5%; left: 39.5%;" data-info='<div class="header">Mouth and Throat <span class="close-btn">X</span></div><ul><li>Increased risk of mouth and throat cancers</li></ul>' data-zoom="scale(2) translate(-25%, -15%)"></div>
+    <div class="hotspot" style="top: 27%; left: 43%;" data-info='<div class="header">Lungs <span class="close-btn">X</span></div><ul><li>Weakens the lungs’ ability to fight infections</li></ul>' data-zoom="scale(2) translate(-15%, -5%)"></div>
+    <div class="hotspot" style="top: 35%; left: 46%;" data-info='<div class="header">Liver <span class="close-btn">X</span></div><ul><li>Fatty liver</li><li>Hepatitis</li><li>Cirrhosis</li><li>Increased risk of liver cancer</li></ul>' data-zoom="scale(2) translate(-10%, 0%)"></div>
+    <div class="hotspot" style="top: 40%; left: 30%;" data-info='<div class="header">Blood and Immunity <span class="close-btn">X</span></div><ul><li>Reduced production of white blood cells</li><li>Weakened immunity</li><li>Less ability to fight infections</li><li>Causes anemia</li></ul>' data-zoom="scale(2) translate(-20%, 5%)"></div>
+    
     <!-- Tooltip -->
     <div id="tooltip" class="tooltip"></div>
   </div>
@@ -82,23 +89,43 @@
   <script>
     const hotspots = document.querySelectorAll('.hotspot');
     const tooltip = document.getElementById('tooltip');
+    const imageContainer = document.getElementById('imageContainer');
+    const bodyImage = document.getElementById('bodyImage');
+    let isZoomed = false;
 
     hotspots.forEach(hotspot => {
       hotspot.addEventListener('click', function(event) {
+        if (isZoomed) return;
         tooltip.style.display = 'block';
         tooltip.innerHTML = this.getAttribute('data-info');
         tooltip.style.top = `${event.target.offsetTop - 10}px`;
         tooltip.style.left = `${event.target.offsetLeft + 20}px`;
         this.classList.add('active');
+        
+        // Zoom effect
+        const zoomTransform = this.getAttribute('data-zoom');
+        bodyImage.style.transform = zoomTransform;
+        isZoomed = true;
       });
     });
 
+    // Event listener for tooltip close button
     document.addEventListener('click', function(event) {
-      if (!event.target.classList.contains('hotspot')) {
+      if (event.target.classList.contains('close-btn')) {
         tooltip.style.display = 'none';
+        bodyImage.style.transform = 'scale(1) translate(0, 0)';
+        isZoomed = false;
+      }
+    });
+
+    // Click outside tooltip to reset view
+    document.addEventListener('click', function(event) {
+      if (!event.target.classList.contains('hotspot') && !event.target.classList.contains('close-btn')) {
+        tooltip.style.display = 'none';
+        bodyImage.style.transform = 'scale(1) translate(0, 0)';
+        isZoomed = false;
       }
     });
   </script>
 </body>
 </html>
-
